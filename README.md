@@ -94,29 +94,6 @@ Untuk melihat isi database melalui GUI bawaan Prisma:
 ```bash
 npx prisma studio
 ```
-
----
-
-## 📂 Struktur Folder (Contoh)
-```
-pbp-ecomerce-be/
-├── prisma/
-│   ├── schema.prisma
-│   ├── migrations/
-├── src/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middlewares/
-│   ├── scripts/
-│   ├── utils/
-│   └── server.js
-├── package.json
-├── .env.example
-├── README.md
-└── prisma/
-    └── schema.prisma
-```
-
 ---
 
 ## 🧑‍💻 Dibuat Oleh
