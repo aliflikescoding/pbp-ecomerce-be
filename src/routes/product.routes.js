@@ -8,11 +8,13 @@ const {
   updateProduct,
   deleteProduct,
   uploadProductImages,
+  getAllProducts
 } = require("../controllers/product.controller");
 const verifyAdmin = require("../middleware/verify.admin");
 
 // CRUD Routes
 router.post("/", verifyAdmin, upload.single("image"), createProduct);
+router.get("/all", verifyAdmin, getAllProducts);
 router.get("/", getProducts);
 router.get("/:id", getProductById);
 router.put("/:id", verifyAdmin, upload.single("image"), updateProduct);
