@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const prisma = new PrismaClient();
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-very-secure-secret";
-const COOKIE_NAME = "admin_session"; 
+const COOKIE_NAME = "admin_session";
 const SESSION_EXPIRY_DAYS = 7;
 
 // ADMIN LOGIN
@@ -688,6 +688,21 @@ const updateOrderStatus = async (req, res) => {
       });
     }
 
+    // Validate status values according to User Story #8
+    const validStatuses = [
+      "pending",
+      "processing",
+      "shipped",
+      "completed",
+      "cancelled",
+    ];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({
+        status: "error",
+        message: `Invalid status. Allowed values: ${validStatuses.join(", ")}`,
+      });
+    }
+
     const order = await prisma.orders.update({
       where: { id: parseInt(id) },
       data: { status },
@@ -704,6 +719,7 @@ const updateOrderStatus = async (req, res) => {
               select: {
                 name: true,
                 price: true,
+                images: true,
               },
             },
           },
