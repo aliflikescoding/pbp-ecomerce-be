@@ -131,8 +131,7 @@ const getAllProducts = async (req, res) => {
     const skip = (page - 1) * limit;
 
     // Build where clause for filtering
-    const whereClause = {
-    };
+    const whereClause = {};
 
     // Search filter
     if (search) {
@@ -310,12 +309,41 @@ const uploadProductImages = async (req, res) => {
   }
 };
 
+// New function to delete all images from a product
+const deleteProductImages = async (req, res) => {
+  try {
+    const productId = parseInt(req.params.id);
+
+    // Check if product exists
+    const product = await prisma.products.findUnique({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    // Delete all images for this product
+    const deletedImages = await prisma.product_images.deleteMany({
+      where: { product_id: productId },
+    });
+
+    res.json({
+      message: `${deletedImages.count} images deleted successfully`,
+      count: deletedImages.count,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
   updateProduct,
   deleteProduct,
-  uploadProductImages, // Export the new function
-  getAllProducts
+  uploadProductImages,
+  deleteProductImages,
+  getAllProducts,
 };

@@ -8,7 +8,8 @@ const {
   updateProduct,
   deleteProduct,
   uploadProductImages,
-  getAllProducts
+  deleteProductImages, // ✅ Import the delete images function
+  getAllProducts,
 } = require("../controllers/product.controller");
 const verifyAdmin = require("../middleware/verify.admin");
 
@@ -27,5 +28,8 @@ router.post(
   upload.array("images", 10),
   uploadProductImages
 );
+
+// Route to delete all images from a specific product
+router.delete("/:id/images", verifyAdmin, deleteProductImages);
 
 module.exports = router;
